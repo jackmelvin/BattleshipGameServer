@@ -55,11 +55,11 @@ class GamePlay {
 			command = readers[playerToReadFrom].readLine();
 			if (command == null) {
 			    // client disconnected
-                int playerToWriteTo = (playerToReadFrom == 0) ? 1 : 0;
-                write(playerToWriteTo, OPPONENT_DISCONNECTED);
+				command = OPPONENT_DISCONNECTED;
                 endGame();
             }
-		} catch (Exception e) {
+		} catch (IOException e) {
+			command = OPPONENT_DISCONNECTED;
 			e.printStackTrace();
 		}
 		return command;
@@ -76,9 +76,9 @@ class GamePlay {
 			endGame();
 		} else {
 			write(shootingPlayer, result);
-		}
-		if (result.equals(MISS)) {
-			endTurn();
+			if (result.equals(MISS)) {
+				endTurn();
+			}
 		}
 	}
 
